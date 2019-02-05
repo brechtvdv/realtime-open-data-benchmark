@@ -1,8 +1,6 @@
 const Influx = require('influxdb-nodejs');
 const client = new Influx(`http://${process.env.INFLUX_HOST}:8086/${process.env.INFLUX_DATABASE}`);
 
-console.log(${process.env.INFLUX_HOST})
-
 /*# The series name must be a string. Add dependent fields/tags
         # in curly brackets.
         series_name = 'requests'
@@ -27,7 +25,7 @@ client.schema('requests', fieldSchema, tagSchema, {
   stripUnknown: true,
 });
 
-client.write('http')
+client.write('requests')
   .tag({  
   })
   .field({

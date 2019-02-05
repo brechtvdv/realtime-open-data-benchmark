@@ -4,6 +4,7 @@
   "description": "Benchmarks pull- and push-based approaches for publishing realtime open data",
   "main": "test-client-influxdb.js",
   "scripts": {
+    "start": "node test-client-influxdb.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
