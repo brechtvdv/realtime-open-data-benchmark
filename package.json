@@ -1,0 +1,22 @@
+{
+  "name": "realtime-open-data-benchmark",
+  "version": "0.0.1",
+  "description": "Benchmarks pull- and push-based approaches for publishing realtime open data",
+  "main": "test-client-influxdb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brechtvdv/realtime-open-data-benchmark.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brechtvdv/realtime-open-data-benchmark/issues"
+  },
+  "homepage": "https://github.com/brechtvdv/realtime-open-data-benchmark#readme",
+  "dependencies": {
+    "influxdb-nodejs": "^2.11.0"
+  }
+}
