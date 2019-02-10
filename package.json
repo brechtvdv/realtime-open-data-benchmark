@@ -2,9 +2,9 @@
   "name": "realtime-open-data-benchmark",
   "version": "0.0.1",
   "description": "Benchmarks pull- and push-based approaches for publishing realtime open data",
-  "main": "test-client-influxdb.js",
+  "main": "experiment_1.js",
   "scripts": {
-    "start": "node test-client-influxdb.js",
+    "start": "node experiment_1.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
