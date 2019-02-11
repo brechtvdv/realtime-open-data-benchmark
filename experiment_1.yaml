@@ -1,14 +1,29 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: experiment_1
-  namespace: experiment
+  name: experiment1
+  labels:
+    app: experiment
 spec:
-  containers:
-  - name: experiment_1_container
-    image: experiment_1
-    resources:
-      requests:
-        memory: "100Mi"
-      limits:
-        memory: "200Mi"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: experiment
+  template:
+    metadata:
+      labels:
+        app: experiment
+    spec:
+      containers:
+      - name: experiment1
+        image: http://172.17.0.1:5000/experiment1:0.0.1
+        env:
+        - name: INFLUX_HOST
+          value: "172.17.0.1"
+        - name: INFLUX_DATABASE
+          value: "metrics"
+        resources:
+          requests:
+            memory: "100Mi"
+          limits:
+            memory: "2000Mi"

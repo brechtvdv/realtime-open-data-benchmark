@@ -1,5 +1,7 @@
+// Example CLI command:
+// kubectl run rt --image=172.17.0.1:5000/realtime-test-X --env="INFLUX_HOST=172.17.0.1" --replicas=3
+
 const Influx = require('influxdb-nodejs');
-//const client = new Influx(`http://influxdb.test10.wall2-ilabt-iminds-be.wall1.ilabt.iminds.be:8086/metrics`);
 
 const INFLUX_HOST = process.env.INFLUX_HOST ? process.env.INFLUX_HOST : 'localhost';
 const INFLUX_DATABASE = process.env.INFLUX_DATABASE ? process.env.INFLUX_DATABASE : 'metrics';
