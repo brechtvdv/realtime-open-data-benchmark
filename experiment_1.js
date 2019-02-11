@@ -41,6 +41,5 @@ client.write('requests')
 
 client.syncWrite()
   .then(() => console.info('sync write queue success'))
-  .catch(err => console.error(`sync write queue fail, err:${err.message}`));
-
-//process.exit()
+  .catch(err => console.error(`sync write queue fail, err:${err.message}`))
+  .then(() => process.exit())
