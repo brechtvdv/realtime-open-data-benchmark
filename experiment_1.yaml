@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: experiment1
@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
       - name: experiment1
-        image: http://172.17.0.1:5000/experiment1:0.0.1
+        image: http://influxdb.test12.wall2-ilabt-iminds-be.wall1.ilabt.iminds.be:5000/experiment1:0.0.1
         env:
         - name: INFLUX_HOST
-          value: "172.17.0.1"
+          value: "influxdb.test12.wall2-ilabt-iminds-be.wall1.ilabt.iminds.be"
         - name: INFLUX_DATABASE
           value: "metrics"
         resources:

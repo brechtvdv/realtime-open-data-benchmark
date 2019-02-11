@@ -1,5 +1,4 @@
 // Example CLI command:
-// kubectl run rt --image=172.17.0.1:5000/realtime-test-X --env="INFLUX_HOST=172.17.0.1" --replicas=3
 
 const Influx = require('influxdb-nodejs');
 
@@ -18,7 +17,7 @@ const client = new Influx(`http://${INFLUX_HOST}:8086/${INFLUX_DATABASE}`);
         # Defines all the tags for the series.
         tags = ['server_name', 'experiment']*/
 
-const podName = process.env.POD_NAME ? process.env.POD_NAME : 'host1';
+const podName = process.env.POD_NAME ? process.env.POD_NAME : 'test';
 
 const fieldSchema = {
   requests: 'i'
