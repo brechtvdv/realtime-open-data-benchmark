@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: experiment1
-        image: http://influxdb.test12.wall2-ilabt-iminds-be.wall1.ilabt.iminds.be:5000/experiment1:0.0.1
+        image: influxdb.test12.wall2-ilabt-iminds-be.wall1.ilabt.iminds.be:5000/experiment1:0.0.1
         env:
         - name: INFLUX_HOST
           value: "influxdb.test12.wall2-ilabt-iminds-be.wall1.ilabt.iminds.be"
