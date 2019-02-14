@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/brechtvdv/realtime-open-data-benchmark#readme",
   "dependencies": {
+    "express": "^4.16.4",
+    "influx": "^5.0.7",
     "influxdb-nodejs": "^2.11.0"
   }
 }
