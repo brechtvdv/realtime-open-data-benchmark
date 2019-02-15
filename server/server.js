@@ -86,6 +86,9 @@ class Server {
 
         // Polling resource
         this.app.get('/poll', (req, res) => {
+            if(config.caching.enabled) {
+                res.setHeader('Cache-Control', 'max-age=' + config.caching.maxAge);
+            }
             res.json(this.currentEvents);
         });
 
@@ -94,6 +97,10 @@ class Server {
             // SSE stream requested
             if(req.headers.accept.indexOf('text/event-stream') > -1) {
                 res.setHeader('Content-Type', 'text/event-stream');
+                res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+                res.setHeader('Expires', 0);
+                res.setHeader('Connection', 'keep-alive');
+
                 this.listeners.push(res);
                 res.on('close', () =>  {
                     this.listeners.splice(this.listeners.indexOf(res), 1)

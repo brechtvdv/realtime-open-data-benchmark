@@ -1,5 +1,5 @@
 {
-    "eventGenerationInterval": 1000,
+    "eventGenerationInterval": 5000,
     "indexOffsetRange": {
         "min": 0,
         "max": 20
@@ -13,7 +13,7 @@
         "database": "pubsub_vs_polling"
     },
     "caching": {
-        "enabled": false,
-        "maxAge": 15000
+        "enabled": true,
+        "maxAge": 5000
     }
 }
