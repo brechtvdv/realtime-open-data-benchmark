@@ -67,7 +67,7 @@ app.use((req, res, next) => {
 // Polling resource
 app.get('/poll', async (req, res) => {
     // Read targetSize from file TODO
-    res.json(await events.generate(500));
+    res.json(await events.generate(5000));
 });
 
 // Server-Sent-Events resource

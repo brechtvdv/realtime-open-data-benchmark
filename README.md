@@ -8,7 +8,7 @@ A gateway can be configured to add network impairment.
 
 Research question: *What is the cut-off point between HTTP polling and publish/subscribe (pubsub) interfaces for real-time Open Data?*
 
-Note: Server-Sent-Events (SSE) is tested for pubsub systems to use the same protocol (HTTP) as polling.
+Note: Server-Sent-Events_manager (SSE) is tested for pubsub systems to use the same protocol (HTTP) as polling.
 
 ## Experiment 1
 
