@@ -9,7 +9,7 @@ class EventsManager {
     /**
      * Generate fake events with a given target size (in bytes).
      * @param targetSize
-     * @returns {Promise<[skeleton, dataSize]>}
+     * @returns {Promise<{data, size}>}
      */
     async generate(targetSize) {
         // Read and parse the skeleton
@@ -21,7 +21,8 @@ class EventsManager {
         events = JSON.parse(events);
 
         // Update the generatedAtTime time to the skeleton
-        skeleton['prov:generatedAtTime'] = new Date();
+        let provenTimestamp = new Date();
+        skeleton['prov:generatedAtTime'] = provenTimestamp;
 
         // Generate events
         let dataSize = jsonSize(skeleton);
@@ -46,7 +47,11 @@ class EventsManager {
         }
         console.debug('Generated events with size: ' + dataSize + ' bytes');
 
-        return [skeleton, dataSize];
+        return {
+            data: skeleton,
+            size: dataSize,
+            provenTimestamp: provenTimestamp
+        };
     }
 }
 

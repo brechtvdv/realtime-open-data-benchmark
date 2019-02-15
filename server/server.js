@@ -21,10 +21,24 @@ const influx = new Influx.InfluxDB({
             tags: [
                 'event'
             ]
+        },
+        {
+            measurement: 'generated_events',
+            fields: {
+                size: Influx.FieldType.INTEGER,
+                provenTimestamp: Influx.FieldType.STRING,
+            },
+            tags: [
+                'event'
+            ]
         }
     ]
 })
 
+/**
+ * Save resource usage of the server to Influx DB.
+ * @param event
+ */
 function saveUsage(event) {
     console.info('EVENT: ' + event);
     console.info('CPU: ' + JSON.stringify(process.cpuUsage()));
@@ -50,6 +64,33 @@ function saveUsage(event) {
     })
 }
 
+/**
+ * Save the generated event meta data to Influx DB.
+ * @param event
+ * @param size
+ * @param provenTimestamp
+ */
+function saveGenerationEvent(event, size, provenTimestamp) {
+    console.info('EVENT: ' + event);
+    console.info('SIZE: ' + size);
+    console.info('PROVEN TIMESTAMP: ' + provenTimestamp.toISOString());
+
+    influx.writePoints([
+        {
+            measurement: 'generated_events',
+            tags: {
+                event: event
+            },
+            fields: {
+                size: size,
+                provenTimestamp: provenTimestamp.toISOString()
+            },
+        }
+    ]).catch((err) => {
+        console.error(`Error while saving data to InfluxDB! ${err.stack}`)
+    })
+}
+
 // Handle usage logging
 app.use((req, res, next) => {
     // Connection opened
@@ -67,7 +108,11 @@ app.use((req, res, next) => {
 // Polling resource
 app.get('/poll', async (req, res) => {
     // Read targetSize from file TODO
-    res.json(await events.generate(5000));
+    let e = await events.generate(5000);
+    let size = e['size'];
+    let provenTimestamp = e['provenTimestamp'];
+    saveGenerationEvent('generation', size, provenTimestamp);
+    res.json(e['data']);
 });
 
 // Server-Sent-Events resource
