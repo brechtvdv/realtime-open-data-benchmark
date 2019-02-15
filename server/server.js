@@ -1,6 +1,8 @@
 const express = require('express');
 const process = require('process');
-const Influx = require('influx')
+const Influx = require('influx');
+const EventsManager = require('./events_manager.js');
+const events = new EventsManager();
 const app = express();
 const influx = new Influx.InfluxDB({
     host: 'localhost',
@@ -63,8 +65,9 @@ app.use((req, res, next) => {
 });
 
 // Polling resource
-app.get('/poll', (req, res) => {
-    res.send('Hello World POLLING');
+app.get('/poll', async (req, res) => {
+    // Read targetSize from file TODO
+    res.json(await events.generate(500));
 });
 
 // Server-Sent-Events resource
