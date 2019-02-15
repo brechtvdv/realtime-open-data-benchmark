@@ -116,6 +116,9 @@ class Server {
 
         // Populate events
         this.generateNewEvents(this);
+
+        // Init usage
+        this.saveUsage('setup');
     }
 
     /**
