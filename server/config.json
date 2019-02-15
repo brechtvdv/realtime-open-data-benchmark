@@ -11,5 +11,9 @@
     "influx": {
         "host": "localhost",
         "database": "pubsub_vs_polling"
+    },
+    "caching": {
+        "enabled": false,
+        "maxAge": 15000
     }
 }
