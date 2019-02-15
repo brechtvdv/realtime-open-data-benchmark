@@ -43,6 +43,7 @@ class Server {
                 }
             ]
         });
+        this._listeners = [];
 
         // Setup Influx DB
         this.influx.getDatabaseNames()
@@ -68,6 +69,9 @@ class Server {
 
         // Handle usage logging
         this.app.use((req, res, next) => {
+            // CORS
+            res.setHeader('Access-Control-Allow-Origin', '*');
+
             // Connection opened
             this.saveUsage('open');
 
@@ -87,7 +91,19 @@ class Server {
 
         // Server-Sent-Events resource
         this.app.get('/sse', (req, res) => {
-            res.send('SSE');
+            // SSE stream requested
+            if(req.headers.accept.indexOf('text/event-stream') > -1) {
+                res.setHeader('Content-Type', 'text/event-stream');
+                this.listeners.push(res);
+                res.on('close', () =>  {
+                    this.listeners.splice(this.listeners.indexOf(res), 1)
+                });
+            }
+            // If the client wants something else than SSE, return a HTTP 400 error
+            else {
+                res.writeHead(400, {});
+                res.end('SSE failure, check your request please.');
+            }
         });
     }
 
@@ -160,8 +176,13 @@ class Server {
         let size = e['size'];
         let provenTimestamp = e['provenTimestamp'];
 
-        // Update the current event list
+        // Update the current event list for HTTP polling
         self.currentEvents = e['data'];
+
+        // Update each listener
+        self.listeners.forEach((client) => {
+            client.write("data: " + JSON.stringify(e['data']) + '\n\n');
+        });
 
         // Log with Influx DB
         self.saveGenerationEvent('generation', size, provenTimestamp);
@@ -186,6 +207,14 @@ class Server {
 
     set currentEvents(e) {
         this._currentEvents = e;
+    }
+
+    get listeners() {
+        return this._listeners;
+    }
+
+    set listeners(l) {
+        this._listeners = l;
     }
 }
 
