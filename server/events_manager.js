@@ -8,10 +8,14 @@ readFile = util.promisify(fs.readFile);
 class EventsManager {
     /**
      * Generate fake events with a given target size (in bytes).
+     * The index offset allows you to go loop further
      * @param targetSize
+     * @param indexOffset = 0
      * @returns {Promise<{data, size}>}
      */
-    async generate(targetSize) {
+    async generate(targetSize, indexOffset = 0) {
+        console.debug('Generating events with target size: ' + targetSize + ' bytes and index offset: ' + indexOffset);
+
         // Read and parse the skeleton
         let skeleton = await readFile(SKELETON_FILE, { encoding: 'utf8' });
         skeleton = JSON.parse(skeleton);
@@ -29,7 +33,7 @@ class EventsManager {
         if(dataSize > targetSize) {
             console.warn('Skeleton is already bigger than the targetSize, graph will be empty!');
         }
-        let eventCounter = 0;
+        let eventCounter = indexOffset;
         while(dataSize <= targetSize) {
             // Get the current event and update the dataSize counter
             let e = events[eventCounter];

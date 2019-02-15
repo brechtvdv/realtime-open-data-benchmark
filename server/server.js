@@ -33,7 +33,8 @@ const influx = new Influx.InfluxDB({
             ]
         }
     ]
-})
+});
+let currentEvents = {};
 
 /**
  * Save resource usage of the server to Influx DB.
@@ -91,6 +92,19 @@ function saveGenerationEvent(event, size, provenTimestamp) {
     })
 }
 
+async function generateNewEvents() {
+    // Read index offset range and target size from file TODO
+    let high = 20;
+    let low = 0;
+    let indexOffset = Math.round(Math.random() * (high - low) + low);
+    let targetSize = 5000;
+    let e = await events.generate(targetSize, indexOffset);
+    let size = e['size'];
+    let provenTimestamp = e['provenTimestamp'];
+    currentEvents = e['data'];
+    saveGenerationEvent('generation', size, provenTimestamp);
+}
+
 // Handle usage logging
 app.use((req, res, next) => {
     // Connection opened
@@ -106,13 +120,8 @@ app.use((req, res, next) => {
 });
 
 // Polling resource
-app.get('/poll', async (req, res) => {
-    // Read targetSize from file TODO
-    let e = await events.generate(5000);
-    let size = e['size'];
-    let provenTimestamp = e['provenTimestamp'];
-    saveGenerationEvent('generation', size, provenTimestamp);
-    res.json(e['data']);
+app.get('/poll', (req, res) => {
+    res.json(currentEvents);
 });
 
 // Server-Sent-Events resource
@@ -130,11 +139,13 @@ influx.getDatabaseNames()
     .then(() => {
         // Launch server
         let server = app.listen(4444, function () {
-            let host = server.address().address
-            let port = server.address().port
+            let host = server.address().address;
+            let port = server.address().port;
 
-            console.log("Server is listening at http://%s:%s", host, port)
+            console.log("Server is listening at http://%s:%s", host, port);
         });
+        // Read interval generation from file TODO
+        setInterval(generateNewEvents, 1000);
     })
     .catch((err) => {
         console.error(`Error creating Influx database!`);
