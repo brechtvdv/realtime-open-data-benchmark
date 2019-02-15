@@ -18,7 +18,7 @@ class Server {
             database: config.influx.database,
             schema: [
                 {
-                    measurement: 'usage',
+                    measurement: 'usage_server',
                     fields: {
                         cpuUser: Influx.FieldType.INTEGER,
                         cpuSystem: Influx.FieldType.INTEGER,
@@ -32,7 +32,7 @@ class Server {
                     ]
                 },
                 {
-                    measurement: 'generated_events',
+                    measurement: 'generated_events_server',
                     fields: {
                         size: Influx.FieldType.INTEGER,
                         provenTimestamp: Influx.FieldType.STRING,
@@ -101,6 +101,7 @@ class Server {
                 res.setHeader('Expires', 0);
                 res.setHeader('Connection', 'keep-alive');
 
+                // Add client to listeners
                 this.listeners.push(res);
                 res.on('close', () =>  {
                     this.listeners.splice(this.listeners.indexOf(res), 1)
@@ -112,6 +113,9 @@ class Server {
                 res.end('SSE failure, check your request please.');
             }
         });
+
+        // Populate events
+        this.generateNewEvents(this);
     }
 
     /**
@@ -125,7 +129,7 @@ class Server {
 
         this.influx.writePoints([
             {
-                measurement: 'usage',
+                measurement: 'usage_server',
                 tags: {
                     event: event
                 },
@@ -156,7 +160,7 @@ class Server {
 
         this.influx.writePoints([
             {
-                measurement: 'generated_events',
+                measurement: 'generated_events_server',
                 tags: {
                     event: event
                 },
