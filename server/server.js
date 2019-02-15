@@ -5,8 +5,8 @@ const EventsManager = require('./events_manager.js');
 const events = new EventsManager();
 const app = express();
 const influx = new Influx.InfluxDB({
-    host: 'localhost',
-    database: 'pubsub_vs_polling',
+    host: config.influx.host,
+    database: config.influx.database,
     schema: [
         {
             measurement: 'usage',
@@ -34,11 +34,13 @@ const influx = new Influx.InfluxDB({
         }
     ]
 });
+const config = require('config.json');
+
 let currentEvents = {};
 
 /**
  * Save resource usage of the server to Influx DB.
- * @param event
+ * @param event: reason
  */
 function saveUsage(event) {
     console.info('EVENT: ' + event);
@@ -67,9 +69,9 @@ function saveUsage(event) {
 
 /**
  * Save the generated event meta data to Influx DB.
- * @param event
- * @param size
- * @param provenTimestamp
+ * @param event: reason
+ * @param size: event data size in bytes
+ * @param provenTimestamp: JS Date object when the event data has been generated
  */
 function saveGenerationEvent(event, size, provenTimestamp) {
     console.info('EVENT: ' + event);
@@ -93,15 +95,18 @@ function saveGenerationEvent(event, size, provenTimestamp) {
 }
 
 async function generateNewEvents() {
-    // Read index offset range and target size from file TODO
-    let high = 20;
-    let low = 0;
-    let indexOffset = Math.round(Math.random() * (high - low) + low);
-    let targetSize = 5000;
-    let e = await events.generate(targetSize, indexOffset);
+    // Generate events
+    let max = config.indexOffsetRange.max;
+    let min = config.indexOffsetRange.min;
+    let indexOffset = Math.round(Math.random() * (max - min) + min);
+    let e = await events.generate(config.targetSize, indexOffset);
     let size = e['size'];
     let provenTimestamp = e['provenTimestamp'];
+
+    // Update the current event list
     currentEvents = e['data'];
+
+    // Log with Influx DB
     saveGenerationEvent('generation', size, provenTimestamp);
 }
 
@@ -132,20 +137,20 @@ app.get('/sse', (req, res) => {
 // Setup Influx DB
 influx.getDatabaseNames()
     .then((names) => {
-        if (!names.includes('pubsub_vs_polling')) {
-            return influx.createDatabase('pubsub_vs_polling');
+        if (!names.includes(config.influx.database)) {
+            return influx.createDatabase(config.influx.database);
         }
     })
     .then(() => {
         // Launch server
-        let server = app.listen(4444, function () {
+        let server = app.listen(config.server.port, () => {
             let host = server.address().address;
             let port = server.address().port;
 
             console.log("Server is listening at http://%s:%s", host, port);
         });
-        // Read interval generation from file TODO
-        setInterval(generateNewEvents, 1000);
+        // Start event generation
+        setInterval(generateNewEvents, config.eventGenerationInterval);
     })
     .catch((err) => {
         console.error(`Error creating Influx database!`);
