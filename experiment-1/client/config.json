@@ -1,0 +1,9 @@
+{
+    "influx": {
+        "host": "localhost",
+        "database": "pubsub_vs_polling"
+    },
+    "defaultPodName": "test",
+    "pollingInterval": 1000,
+    "server": "http://localhost:4444"
+}
