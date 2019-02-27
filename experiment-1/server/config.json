@@ -1,0 +1,19 @@
+{
+    "eventGenerationInterval": 5000,
+    "indexOffsetRange": {
+        "min": 0,
+        "max": 20
+    },
+    "targetSize": 5000,
+    "server": {
+        "port": 4444
+    },
+    "influx": {
+        "host": "localhost",
+        "database": "pubsub_vs_polling"
+    },
+    "caching": {
+        "enabled": true,
+        "maxAge": 5000
+    }
+}
