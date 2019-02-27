@@ -6,8 +6,8 @@ class PubSubClient extends BaseClient {
     constructor() {
         super();
         this._EventSource = new EventSource(config.server + '/sse');
-        this.EventSource.onmessage = this.handleOnMessage;
-        this.EventSource.onerror = this.handleOnError;
+        this.EventSource.onmessage = this.handleOnMessage.bind(this);
+        this.EventSource.onerror = this.handleOnError.bind(this);
     }
 
     /**
