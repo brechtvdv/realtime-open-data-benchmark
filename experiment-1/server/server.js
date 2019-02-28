@@ -28,7 +28,8 @@ class Server {
                         ramRss: Influx.FieldType.INTEGER,
                         ramHeapTotal: Influx.FieldType.INTEGER,
                         ramHeapUsed: Influx.FieldType.INTEGER,
-                        ramExternal: Influx.FieldType.INTEGER
+                        ramExternal: Influx.FieldType.INTEGER,
+                        amountOfClients: Influx.FieldType.INTEGER
                     },
                     tags: [
                         'event'
@@ -149,7 +150,8 @@ class Server {
                         ramRss: process.memoryUsage()['rss'],
                         ramHeapTotal: process.memoryUsage()['heapTotal'],
                         ramHeapUsed: process.memoryUsage()['heapUsed'],
-                        ramExternal: process.memoryUsage()['external']
+                        ramExternal: process.memoryUsage()['external'],
+                        amountOfClients: this._listeners.length
                     },
                 }
             ]).catch((err) => {
