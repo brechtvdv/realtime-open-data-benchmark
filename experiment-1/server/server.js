@@ -1,8 +1,10 @@
 const express = require('express');
 const process = require('process');
 const Influx = require('influx');
+const osUtils = require('os-utils');
 const EventsManager = require('./events_manager.js');
 const config = require('./config.json');
+const util = require('util');
 
 class Server {
     /**
@@ -20,6 +22,7 @@ class Server {
                 {
                     measurement: 'usage_server',
                     fields: {
+                        cpuPercentage: Influx.FieldType.FLOAT,
                         cpuUser: Influx.FieldType.INTEGER,
                         cpuSystem: Influx.FieldType.INTEGER,
                         ramRss: Influx.FieldType.INTEGER,
@@ -126,28 +129,34 @@ class Server {
      * @param event: reason
      */
     saveUsage(event) {
-        console.info('EVENT: ' + event);
-        console.info('CPU: ' + JSON.stringify(process.cpuUsage()));
-        console.info('MEM: ' + JSON.stringify(process.memoryUsage()));
+        let cpuUsagePercentage = 0.0
+        osUtils.cpuUsage(((usage) => {
+            console.info('EVENT: ' + event);
+            console.info('CPU (time ms): ' + JSON.stringify(process.cpuUsage()));
+	        console.info('CPU (%): ' + usage);
+            console.info('MEM: ' + JSON.stringify(process.memoryUsage()));
+            cpuUsagePercentage = usage;
+            this.influx.writePoints([
+                {
+                    measurement: 'usage_server',
+                    tags: {
+                        event: event
+                    },
+                    fields: {
+                        cpuPercentage: cpuUsagePercentage, 
+                        cpuUser: process.cpuUsage()['user'],
+                        cpuSystem: process.cpuUsage()['system'],
+                        ramRss: process.memoryUsage()['rss'],
+                        ramHeapTotal: process.memoryUsage()['heapTotal'],
+                        ramHeapUsed: process.memoryUsage()['heapUsed'],
+                        ramExternal: process.memoryUsage()['external']
+                    },
+                }
+            ]).catch((err) => {
+                console.error(`Error while saving data to InfluxDB! ${err.stack}`)
+            })
+        }).bind(this));
 
-        this.influx.writePoints([
-            {
-                measurement: 'usage_server',
-                tags: {
-                    event: event
-                },
-                fields: {
-                    cpuUser: process.cpuUsage()['user'],
-                    cpuSystem: process.cpuUsage()['system'],
-                    ramRss: process.memoryUsage()['rss'],
-                    ramHeapTotal: process.memoryUsage()['heapTotal'],
-                    ramHeapUsed: process.memoryUsage()['heapUsed'],
-                    ramExternal: process.memoryUsage()['external']
-                },
-            }
-        ]).catch((err) => {
-            console.error(`Error while saving data to InfluxDB! ${err.stack}`)
-        })
     }
 
     /**

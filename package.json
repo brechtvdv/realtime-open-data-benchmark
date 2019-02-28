@@ -24,6 +24,7 @@
     "influx": "^5.0.7",
     "influxdb-nodejs": "^2.11.0",
     "json-size": "^1.0.0",
+    "os-utils": "0.0.14",
     "request": "^2.88.0",
     "util": "^0.11.1"
   }
