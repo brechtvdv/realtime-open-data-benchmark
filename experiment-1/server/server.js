@@ -151,7 +151,7 @@ class Server {
                         ramHeapTotal: process.memoryUsage()['heapTotal'],
                         ramHeapUsed: process.memoryUsage()['heapUsed'],
                         ramExternal: process.memoryUsage()['external'],
-                        amountOfClients: this._listeners.length
+                        amountOfClients: this.listeners.length
                     },
                 }
             ]).catch((err) => {
