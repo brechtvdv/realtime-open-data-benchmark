@@ -107,8 +107,10 @@ class Server {
 
                 // Add client to listeners
                 this.listeners.push(res);
+                this.saveUsage('open');
                 res.on('close', () =>  {
-                    this.listeners.splice(this.listeners.indexOf(res), 1)
+                    this.listeners.splice(this.listeners.indexOf(res), 1);
+                    this.saveUsage('close');
                 });
             }
             // If the client wants something else than SSE, return a HTTP 400 error
