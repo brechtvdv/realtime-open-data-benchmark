@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: client
+   labels:
+      app: client
+spec:
+   replicas: 20
+   selector:
+      matchLabels:
+        app: client
+   template:
+     metadata:
+       labels:
+         app: client
+     spec:
+       containers:
+       - name: client
+         image: gitlab.ilabt.imec.be:4567/brvdvyve/live-open-data-benchmark-experiment1-client
+         env:
+         - name: MODE
+           value: "pubsub"
+         # resources:
+         #  requests:
+         #    memory: "100Mi"
+         #  limits:
+         #    memory: "2000Mi"

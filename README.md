@@ -17,6 +17,12 @@ This server has 3.7 GB of memory and uses a Dual-Core AMD Opteron(tm) Processor 
 
 Hypothesis: *Pubsub interfaces induce a linear amount of resources according to the amount of users.*
 
+Run:
+```
+./experiment1.sh
+```
+
 ## Experiment 2
 
 Hypothesis: *Pubsub interfaces have a constant total user latency according to the time between observations.*
+
