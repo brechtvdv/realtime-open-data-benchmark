@@ -33,3 +33,10 @@ spec:
          image: gitlab.ilabt.imec.be:4567/brvdvyve/live-open-data-benchmark-experiment1-server
          ports:
          - containerPort: 4444
+         resources:
+          requests:
+            memory: "35Mi"
+            cpu: "0.01"
+          limits:
+            memory: "40Mi"
+            cpu: "0.02"

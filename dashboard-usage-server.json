@@ -15,7 +15,6 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
   "links": [],
   "panels": [
     {
@@ -83,7 +82,7 @@
             [
               {
                 "params": [
-                  "cpuSystem"
+                  "cpuPercentage"
                 ],
                 "type": "field"
               }

@@ -5,7 +5,7 @@ metadata:
    labels:
       app: client
 spec:
-   replicas: 20
+   replicas: 100
    selector:
       matchLabels:
         app: client
@@ -20,8 +20,10 @@ spec:
          env:
          - name: MODE
            value: "pubsub"
-         # resources:
-         #  requests:
-         #    memory: "100Mi"
-         #  limits:
-         #    memory: "2000Mi"
+         resources:
+          requests:
+            memory: "35Mi"
+            cpu: "10m"
+          limits:
+            memory: "45Mi"
+            cpu: "50m"

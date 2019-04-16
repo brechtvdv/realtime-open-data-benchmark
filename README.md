@@ -17,10 +17,20 @@ This server has 3.7 GB of memory and uses a Dual-Core AMD Opteron(tm) Processor 
 
 Hypothesis: *Pubsub interfaces induce a linear amount of resources according to the amount of users.*
 
-Run:
+kubectl cluster-info returns <externalIP>
+Update experiment1_influx.yaml so Influx is exposed: loadBalancerIP = <externalIP>
+Update your grafana datasource (influxdb-datasource.yml) with <externalIP>
+
+Run on the kubernetes master:
 ```
-./experiment1.sh
+./experiment1.sh 
 ```
+
+Run on your machine:
+```
+./experiment1_local.sh 
+```
+
 
 ## Experiment 2
 
