@@ -18,6 +18,8 @@ spec:
      targetPort: 3000
      name: grafana
    type: LoadBalancer
+   externalIPs:
+   - EXTERNAL_IP
    selector:
      app: grafana
 ---

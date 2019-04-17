@@ -8,7 +8,8 @@ spec:
      targetPort: 8086
      name: influx
    type: LoadBalancer
-   loadBalancerIP: EXTERNAL_IP
+   externalIPs:
+   - EXTERNAL_IP
    selector:
      app: influx
 ---

@@ -17,21 +17,18 @@ This server has 3.7 GB of memory and uses a Dual-Core AMD Opteron(tm) Processor 
 
 Hypothesis: *Pubsub interfaces induce a linear amount of resources according to the amount of users.*
 
-kubectl cluster-info returns <externalIP>
-Update experiment1_influx.yaml so Influx is exposed: loadBalancerIP = <externalIP>
+kubectl cluster-info shows the public IP address of the master <externalIP>
+Update experiment1_influx.yaml so Influx is exposed: externalIPs => <externalIP>
 Update your grafana datasource (influxdb-datasource.yml) with <externalIP>
 
 Run on the kubernetes master:
 ```
-./experiment1.sh 
+chmod +x experiment1.sh
+./experiment1.sh
 ```
 
-Run on your machine:
-```
-./experiment1_local.sh 
-```
-
-
+You can browse to <externalIP>:3000 to see Grafana with the results
+	
 ## Experiment 2
 
 Hypothesis: *Pubsub interfaces have a constant total user latency according to the time between observations.*
