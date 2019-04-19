@@ -12,12 +12,23 @@ Note: Server-Sent-Events (SSE) is tested for pubsub systems to use the same prot
 
 ## Common preparation
 
-Before running the experiment script on the kubernetes master in each of the experiments below,
-some files need to be adapted to contain the public IP address `<externalIP>` of the kubernetes master.
+This common preparation applies to all experiments `X`.
 
-Find this public IP address on the kubernetes master:
+### Clone
+Clone this repository on the master on cd to it.
+```
+git clone https://github.com/xxx/realtime-open-data-benchmark.git
+cd realtime-open-data-benchmark
+```
+
+### External IP address
+Some files need to be adapted to contain the public IP address `<externalIP>` of the kubernetes master.
+
+Find `<externalIP>`, execute on the kubernetes master:
 ```
 kubectl cluster-info
+# first line of output is in format:
+# Kubernetes master is running at https://<externalIP>:<port>
 ```
 
 Change the placeholder `EXTERNAL_IP` with the value of `<externalIP>` in files:
