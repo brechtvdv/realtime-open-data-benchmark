@@ -10,6 +10,32 @@ Research question: *What is the cut-off point between HTTP polling and publish/s
 
 Note: Server-Sent-Events (SSE) is tested for pubsub systems to use the same protocol (HTTP) as polling.
 
+## Common preparation
+
+This common preparation applies to all experiments `X`.
+
+### Clone
+Clone this repository on the master on cd to it.
+```
+git clone https://github.com/xxx/realtime-open-data-benchmark.git
+cd realtime-open-data-benchmark
+```
+
+### External IP address
+Some files need to be adapted to contain the public IP address `<externalIP>` of the kubernetes master.
+
+Find `<externalIP>`, execute on the kubernetes master:
+```
+kubectl cluster-info
+# first line of output is in format:
+# Kubernetes master is running at https://<externalIP>:<port>
+```
+
+Change the placeholder `EXTERNAL_IP` with the value of `<externalIP>` in files:
+* experimentX_grafana.yaml
+* experimentX_influx.yaml
+* influxdb-datasource.yml
+
 ## Experiment 1
 
 First, we want to test how many clients can be served with our server.
@@ -17,17 +43,12 @@ This server has 3.7 GB of memory and uses a Dual-Core AMD Opteron(tm) Processor 
 
 Hypothesis: *Pubsub interfaces induce a linear amount of resources according to the amount of users.*
 
-kubectl cluster-info shows the public IP address of the master <externalIP>
-Update experiment1_influx.yaml so Influx is exposed: externalIPs => <externalIP>
-Update your grafana datasource (influxdb-datasource.yml) with <externalIP>
-
 Run on the kubernetes master:
 ```
-chmod +x experiment1.sh
 ./experiment1.sh
 ```
 
-You can browse to <externalIP>:3000 to see Grafana with the results
+You can browse to `<externalIP>:3000` to see Grafana with the results.
 	
 ## Experiment 2
 
