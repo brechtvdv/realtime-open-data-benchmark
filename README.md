@@ -17,9 +17,16 @@ This server has 3.7 GB of memory and uses a Dual-Core AMD Opteron(tm) Processor 
 
 Hypothesis: *Pubsub interfaces induce a linear amount of resources according to the amount of users.*
 
-kubectl cluster-info shows the public IP address of the master <externalIP>
-Update experiment1_influx.yaml so Influx is exposed: externalIPs => <externalIP>
-Update your grafana datasource (influxdb-datasource.yml) with <externalIP>
+### External IP address
+Change the placeholder `EXTERNAL_IP` with the value of the public IP address of the master in files:
+* experiment1_grafana.yaml
+* experiment1_influx.yaml
+* influxdb-datasource.yml
+
+Note: find that public IP address as follows:
+```
+kubectl cluster-info
+```
 
 Run on the kubernetes master:
 ```
