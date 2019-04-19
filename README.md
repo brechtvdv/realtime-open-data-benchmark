@@ -10,6 +10,21 @@ Research question: *What is the cut-off point between HTTP polling and publish/s
 
 Note: Server-Sent-Events (SSE) is tested for pubsub systems to use the same protocol (HTTP) as polling.
 
+## Common preparation
+
+Before running the experiment script on the kubernetes master in each of the experiments below,
+some files need to be adapted to contain the public IP address `<externalIP>` of the kubernetes master.
+
+Find this public IP address on the kubernetes master:
+```
+kubectl cluster-info
+```
+
+Change the placeholder `EXTERNAL_IP` with the value of `<externalIP>` in files:
+* experimentX_grafana.yaml
+* experimentX_influx.yaml
+* influxdb-datasource.yml
+
 ## Experiment 1
 
 First, we want to test how many clients can be served with our server.
@@ -17,24 +32,12 @@ This server has 3.7 GB of memory and uses a Dual-Core AMD Opteron(tm) Processor 
 
 Hypothesis: *Pubsub interfaces induce a linear amount of resources according to the amount of users.*
 
-### External IP address
-Change the placeholder `EXTERNAL_IP` with the value of the public IP address of the master in files:
-* experiment1_grafana.yaml
-* experiment1_influx.yaml
-* influxdb-datasource.yml
-
-Note: find that public IP address as follows:
-```
-kubectl cluster-info
-```
-
 Run on the kubernetes master:
 ```
-chmod +x experiment1.sh
 ./experiment1.sh
 ```
 
-You can browse to <externalIP>:3000 to see Grafana with the results
+You can browse to `<externalIP>:3000` to see Grafana with the results.
 	
 ## Experiment 2
 
