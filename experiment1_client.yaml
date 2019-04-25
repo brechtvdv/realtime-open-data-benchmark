@@ -20,6 +20,8 @@ spec:
          env:
          - name: MODE
            value: "pubsub"
+         - name: NODE_ENV
+           value: "production"
          resources:
           requests:
             memory: "35Mi"
