@@ -33,6 +33,9 @@ spec:
          image: gitlab.ilabt.imec.be:4567/brvdvyve/live-open-data-benchmark-experiment1-server
          ports:
          - containerPort: 4444
+         env:
+         - name: NODE_ENV
+           value: "production"
          resources:
           requests:
             memory: "35Mi"
