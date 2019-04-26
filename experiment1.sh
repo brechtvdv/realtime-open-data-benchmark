@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# replace all occurrences of EXTERNAL_IP in *.y* files with the actual external IP address reported by kubectl
+sed --in-place "s/EXTERNAL_IP/$(kubectl cluster-info | head -n 1 | egrep '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' -o --color=never)/g" *.y*
+
 kubectl delete service,deployment,secrets,configmap server influx client
 
 kubectl create -f ./experiment1_influx.yaml
