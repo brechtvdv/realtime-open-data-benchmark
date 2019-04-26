@@ -21,20 +21,11 @@ git clone https://github.com/xxx/realtime-open-data-benchmark.git
 cd realtime-open-data-benchmark
 ```
 
-### External IP address
-Some files need to be adapted to contain the public IP address `<externalIP>` of the kubernetes master.
-
-Find `<externalIP>`, execute on the kubernetes master:
-```
-kubectl cluster-info
-# first line of output is in format:
-# Kubernetes master is running at https://<externalIP>:<port>
-```
-
-Change the placeholder `EXTERNAL_IP` with the value of `<externalIP>` in files:
-* experimentX_grafana.yaml
-* experimentX_influx.yaml
-* influxdb-datasource.yml
+### Kubernetes master's IP address
+Some files need to be adapted to contain the IP address `<KUBE_MASTER_IP>` of the kubernetes master.
+These files have a placeholder for it: `EXTERNAL_IP`.
+The value of `<KUBE_MASTER_IP>` could be found by running `kubectl cluster-info`,
+but a script automates the entire file update procedure: `./fill-in-master-ip-address.sh`.
 
 ## Experiment 1
 
@@ -45,10 +36,11 @@ Hypothesis: *Pubsub interfaces induce a linear amount of resources according to 
 
 Run on the kubernetes master:
 ```
+./fill-in-master-ip-address.sh
 ./experiment1.sh
 ```
 
-You can browse to `<externalIP>:3000` to see Grafana with the results.
+You can browse to `<KUBE_MASTER_IP>:3000` to see Grafana with the results.
 	
 ## Experiment 2
 
