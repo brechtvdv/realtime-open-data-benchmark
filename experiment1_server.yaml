@@ -38,8 +38,8 @@ spec:
            value: "production"
          resources:
           requests:
-            memory: "35Mi"
-            cpu: "0.01"
+            memory: "250Mi"
+            cpu: "1"
           limits:
-            memory: "40Mi"
-            cpu: "0.02"
+            memory: "500Mi"
+            cpu: "2"
