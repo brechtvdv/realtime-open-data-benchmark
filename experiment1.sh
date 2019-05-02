@@ -20,3 +20,5 @@ kubectl create configmap grafana-config \
   --from-file=grafana-dashboard-provider.yml=grafana-dashboard-provider.yml
 
 kubectl create -f ./experiment1_grafana.yaml
+
+alias util='kubectl get nodes | grep node | awk '\''{print $1}'\'' | xargs -I {} sh -c '\''echo   {} ; kubectl describe node {} | grep Allocated -A 5 | grep -ve Event -ve Allocated -ve percent -ve -- ; echo '\'''
