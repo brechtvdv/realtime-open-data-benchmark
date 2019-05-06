@@ -40,7 +40,7 @@ Run on the kubernetes master:
 ./experiment1.sh
 ```
 
-You can browse to `<KUBE_MASTER_IP>:31306` to see Grafana with the results.
+You can browse to `<KUBE_MASTER_IP>:3000` to see Grafana with the results.
 	
 ## Experiment 2
 
