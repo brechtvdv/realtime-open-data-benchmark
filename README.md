@@ -46,3 +46,7 @@ You can browse to `<KUBE_MASTER_IP>:3000` to see Grafana with the results.
 
 Hypothesis: *Pubsub interfaces have a constant total user latency according to the time between observations.*
 
+## Retrieve results
+```
+curl -H "Accept: application/csv" -G 'http://<KUBE_MASTER_IP>:8086/query?db=experiment1' --data-urlencode 'q=SELECT * FROM usage_server' > example.csv
+```
