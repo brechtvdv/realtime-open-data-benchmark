@@ -21,11 +21,13 @@ spec:
          - name: MODE
            value: "pubsub"
          - name: NODE_ENV
-           value: "production"
+           value: "test"
+         - name: POLLING_INTERVAL
+           value: "1000"
          resources:
           requests:
             memory: "35Mi"
             cpu: "10m"
           limits:
             memory: "55Mi"
-            cpu: "50m"
+            cpu: "60m"

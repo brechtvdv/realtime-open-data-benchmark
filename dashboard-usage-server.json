@@ -15,6 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
+  "id": 1,
   "links": [],
   "panels": [
     {
@@ -43,6 +44,7 @@
       "lines": true,
       "linewidth": 1,
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -83,6 +85,25 @@
               {
                 "params": [
                   "cpuPercentage"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [],
+          "measurement": "received_events_client",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "delay"
                 ],
                 "type": "field"
               }
