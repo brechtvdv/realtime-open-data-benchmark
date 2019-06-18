@@ -6,8 +6,8 @@ metadata:
      app: server
 spec:
    ports:
-   - port: 4444
-     targetPort: 4444
+   - port: 4443
+     targetPort: 4443
    type: LoadBalancer
    selector:
      app: server
@@ -32,10 +32,14 @@ spec:
        - name: server
          image: gitlab.ilabt.imec.be:4567/brvdvyve/live-open-data-benchmark-experiment1-server
          ports:
-         - containerPort: 4444
+         - containerPort: 4443
          env:
          - name: NODE_ENV
            value: "production"
+         - name: PORT
+           value: "4443"
+         - name: EVENT_INTERVAL
+           value: "5000"
          resources:
           requests:
             memory: "500Mi"

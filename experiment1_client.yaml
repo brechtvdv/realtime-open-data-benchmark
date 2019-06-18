@@ -24,6 +24,8 @@ spec:
            value: "production"
          - name: POLLING_INTERVAL
            value: "1000"
+         - name: SERVER_SERVICE_PORT
+           value: "4443"
          resources:
           requests:
             memory: "35Mi"
