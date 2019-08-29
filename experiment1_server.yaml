@@ -8,6 +8,10 @@ spec:
    ports:
    - port: 4443
      targetPort: 4443
+     name: server
+   - port: 1234
+     targetPort: 80
+     name: nginx
    type: LoadBalancer
    selector:
      app: server
@@ -28,6 +32,14 @@ spec:
        labels:
          app: server
      spec:
+       volumes:
+       - name: nginx-servers
+         configMap:
+           name: nginx-server
+       - name: run-nginx
+         configMap:
+           name: run-nginx
+           defaultMode: 0777
        containers:
        - name: server
          image: gitlab.ilabt.imec.be:4567/brvdvyve/live-open-data-benchmark-experiment1-server
@@ -47,3 +59,16 @@ spec:
           limits:
             memory: "500Mi"
             cpu: "1"
+       - name: nginx
+         image: nginx
+         ports:
+         - containerPort: 80
+         volumeMounts:
+         - mountPath: /etc/nginx/run_nginx.sh
+           name: run-nginx
+           readOnly: false
+           subPath: run_nginx.sh
+         lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "/etc/nginx/run_nginx.sh"]

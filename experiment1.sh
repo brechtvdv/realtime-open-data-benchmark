@@ -1,6 +1,9 @@
 #!/bin/bash
 
-kubectl delete service,deployment,secrets,configmap server influx client
+kubectl delete service,deployment,secrets,configmap server influx client run-nginx
+
+kubectl create configmap run-nginx \
+  --from-file=run_nginx.sh=run_nginx.sh
 
 kubectl create -f ./experiment1_influx.yaml
 

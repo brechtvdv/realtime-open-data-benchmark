@@ -25,7 +25,7 @@ spec:
          - name: POLLING_INTERVAL
            value: "1000"
          - name: SERVER_SERVICE_PORT
-           value: "4443"
+           value: "4443" # Replace with 1234 for NGINX PROXY
          resources:
           requests:
             memory: "70Mi"
