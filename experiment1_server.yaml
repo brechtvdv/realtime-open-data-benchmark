@@ -15,7 +15,7 @@ spec:
    type: LoadBalancer
    selector:
      app: server
----
+--- 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -33,9 +33,6 @@ spec:
          app: server
      spec:
        volumes:
-       - name: nginx-servers
-         configMap:
-           name: nginx-server
        - name: run-nginx
          configMap:
            name: run-nginx
