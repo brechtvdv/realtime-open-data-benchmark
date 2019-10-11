@@ -38,14 +38,14 @@ You can browse to `<KUBE_MASTER_IP>:3000` to see Grafana with the results.
 
 You can scale the amount of clients with, for example:
 ```
-kubectl scale deployement/client --replicas=50
+kubectl scale deployment/client --replicas=50
 ```
 
 ## Experiment 1
 
 First, we want to test the latency according to the amount of clients with polling or pubsub, regardless of the liveness of the data; update frequency does not matter.
 
-The request mode and polling interval of the clients can be set in `experiment1_client.yaml` with `MODE` to "pubsub" or "polling".
+The request mode and polling interval of the clients can be set in `experiment1_client.yaml` with `MODE` to "pubsub" or "polling".A NGINX proxy is installed. This can be used by setting `SERVER_SERVICE_PORT` to "1234" instead of "4443".
 ALso, the polling interval of the clients can be set with `POLLING_INTERVAL` to the amount of milliseconds between HTTP requests.
 
 For this experiment, the polling interval is fixed to 1 second and the update interval to 5 seconds.
