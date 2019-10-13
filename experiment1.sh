@@ -12,8 +12,6 @@ sleep 20
 
 kubectl create -f ./experiment1_server.yaml
 
-kubectl create -f ./experiment1_client.yaml
-
 # Grafana
 kubectl delete service,deployment,secrets,configmap grafana grafana-creds grafana-config
 
@@ -25,3 +23,7 @@ kubectl create configmap grafana-config \
 kubectl create -f ./experiment1_grafana.yaml
 
 alias util='kubectl get nodes | grep node | awk '\''{print $1}'\'' | xargs -I {} sh -c '\''echo   {} ; kubectl describe node {} | grep Allocated -A 5 | grep -ve Event -ve Allocated -ve percent -ve -- ; echo '\'''
+
+sleep 10
+
+kubectl create -f ./experiment1_client.yaml
