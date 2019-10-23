@@ -21,7 +21,7 @@ spec:
          - name: MODE
            value: "pubsub" # polling or pubsub
          - name: CLIENTSIDE_CACHING
-           value: true # only applicable with polling
+           value: "true" # only applicable with polling
          - name: NODE_ENV
            value: "production"
          - name: POLLING_INTERVAL
