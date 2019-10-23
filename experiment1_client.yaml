@@ -19,17 +19,19 @@ spec:
          image: gitlab.ilabt.imec.be:4567/brvdvyve/live-open-data-benchmark-experiment1-client
          env:
          - name: MODE
-           value: "polling" # polling or pubsub
+           value: "pubsub" # polling or pubsub
+         - name: CLIENTSIDE_CACHING
+           value: true # only applicable with polling
          - name: NODE_ENV
            value: "production"
          - name: POLLING_INTERVAL
            value: "1000"
          - name: SERVER_SERVICE_PORT
            value: "4443" # 4443 without nginx, 1234 with nginx
-         # resources:
-         #  requests:
-         #    memory: "70Mi"
-         #    cpu: "50m"
+         resources:
+          requests:
+            memory: "100Mi"
+            cpu: "10m"
          #  limits:
          #    memory: "100Mi"
          #    cpu: "90m"

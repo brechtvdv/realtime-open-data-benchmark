@@ -14,7 +14,7 @@ spec:
      name: nginx
    type: LoadBalancer
    externalIPs:
-   - EXTERNAL_IP
+   
    selector:
      app: server
 --- 
@@ -54,14 +54,15 @@ spec:
          resources:
           requests:
             memory: "500Mi"
-            cpu: "1"
-          limits:
-            memory: "500Mi"
-            cpu: "1"
+            cpu: "2"
        - name: nginx
          image: nginx
          ports:
          - containerPort: 80
+         resources:
+            requests:
+              memory: "500Mi"
+              cpu: "2" # Make this bigger when benchmarking, e.g. 8
          volumeMounts:
          - mountPath: /etc/nginx/run_nginx.sh
            name: run-nginx
