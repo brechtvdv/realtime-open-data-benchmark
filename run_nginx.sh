@@ -6,23 +6,28 @@ mkdir /data/nginx/cache
 mkdir /data/nginx/log
 
 echo '
-proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=my_cache:1m max_size=10g inactive=1m use_temp_path=off;
+proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=my_cache:10m max_size=100m inactive=600s use_temp_path=off;
 
 server {
     listen 80;
-    location / {
-    	# To test
-    	proxy_http_version 1.1; # Always upgrade to HTTP/1.1 
-        proxy_set_header Connection ""; # Enable keepalives
-        proxy_set_header Accept-Encoding ""; # Optimize encoding
-	    # proxy_cache_lock on;
-	    # proxy_cache_valid 200 1s;
-	    # proxy_cache_use_stale updating;
 
-        proxy_set_header Host $host;
-        add_header X-Cache-Status $upstream_cache_status;
-        proxy_cache my_cache;
-        proxy_pass http://SERVER_SERVICE_HOST:1111/;
+          add_header Cache-Control "";
+
+      proxy_cache_lock on;
+      proxy_cache_valid 200 1s;
+      proxy_cache_use_stale updating;
+
+      proxy_cache my_cache;
+
+    location / {
+    	proxy_http_version 1.1; # Always upgrade to HTTP/1.1 
+      proxy_set_header Connection ""; # Enable keepalives
+      proxy_set_header Accept-Encoding ""; # Optimize encoding
+      proxy_set_header Host $host;
+      proxy_hide_header Cache-Control;
+      add_header X-Cache-Status $upstream_cache_status;
+      
+      proxy_pass http://SERVER_SERVICE_HOST:1111/;
      }
 }' > /etc/nginx/conf.d/default.conf
 
