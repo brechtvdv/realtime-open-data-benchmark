@@ -5,7 +5,7 @@ metadata:
    labels:
       app: client
 spec:
-   replicas: 10
+   replicas: 2
    selector:
       matchLabels:
         app: client
@@ -17,21 +17,22 @@ spec:
        containers:
        - name: client
          image: gitlab.ilabt.imec.be:4567/brvdvyve/live-open-data-benchmark-experiment1-client
+         terminationMessagePolicy: FallbackToLogsOnError
          env:
          - name: MODE
-           value: "pubsub" # polling or pubsub
+           value: "polling" # polling or pubsub
          - name: CLIENTSIDE_CACHING
            value: "true" # only applicable with polling
          - name: NODE_ENV
-           value: "production"
+           value: "dev"
          - name: POLLING_INTERVAL
-           value: "1000"
+           value: "100"
          - name: SERVER_SERVICE_PORT
-           value: "4443" # 4443 without nginx, 1234 with nginx
+           value: "1234" # 4443 without nginx, 1234 with nginx
          resources:
           requests:
-            memory: "100Mi"
-            cpu: "10m"
-         #  limits:
-         #    memory: "100Mi"
-         #    cpu: "90m"
+            memory: "110Mi"
+            cpu: "40m"
+          limits:
+            memory: "150Mi"
+            cpu: "60m"
