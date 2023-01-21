@@ -47,7 +47,7 @@ spec:
          envFrom:
          - secretRef:
             name: grafana-creds
-         image: grafana/grafana
+         image: grafana/grafana:7.0.1
          ports:
          - containerPort: 3000
          volumeMounts:
